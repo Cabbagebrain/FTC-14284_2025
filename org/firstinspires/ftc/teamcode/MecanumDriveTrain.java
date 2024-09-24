@@ -27,26 +27,11 @@ public class MecanumDriveTrain extends LinearOpMode {
     FrontRight = hardwareMap.dcMotor.get("FrontRight");
     BackLeft = hardwareMap.dcMotor.get("BackLeft");
     BackRight = hardwareMap.dcMotor.get("BackRight");
-    ArmMotor = hardwareMap.dcMotor.get("ArmMotor");
-
-    // Put initialization blocks here.
-    FrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-    FrontRight.setDirection(DcMotorSimple.Direction.FORWARD);
-    ArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-    BackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-    BackRight.setDirection(DcMotorSimple.Direction.FORWARD);
+    Drivetrain = new Drivetrain(FrontLeft, FrontRight, BackLeft, BackRight, gamepad1)
     waitForStart();
     if (opModeIsActive()) {
       while (opModeIsActive()) {
-        vertical = -gamepad1.right_stick_y;
-        horizontal = gamepad1.right_stick_x;
-        pivot = gamepad1.left_stick_x;
-        FrontLeft.setPower(-pivot + (vertical - horizontal));
-        FrontRight.setPower(-pivot + vertical + horizontal);
-        BackLeft.setPower(pivot + vertical + horizontal);
-        BackRight.setPower(pivot + (vertical - horizontal));
-        ArmMotor.setPower(gamepad1.right_trigger);
-        ArmMotor.setPower(-gamepad1.left_trigger);
+        Drivetrain.drive()
         telemetry.update();
       }
     }
